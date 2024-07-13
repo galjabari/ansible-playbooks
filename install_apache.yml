@@ -1,6 +1,6 @@
 ---
 - name: Install Apache on Ubuntu
-  hosts: webservers
+  hosts: webserver
   gather_facts: false
   become: yes # Run tasks with root privileges
   tasks:

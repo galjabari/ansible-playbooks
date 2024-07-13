@@ -1,6 +1,6 @@
 ---
 - name: Configure Apache virtual host
-  hosts: server1
+  hosts: webserver
   gather_facts: false
   become: true
 
