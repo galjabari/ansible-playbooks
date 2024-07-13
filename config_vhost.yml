@@ -1,0 +1,45 @@
+---
+- name: Configure Apache virtual host
+  hosts: server1
+  gather_facts: false
+  become: true
+
+  vars:
+    site_domain: example.com  # Define your site domain
+
+  tasks:
+    - name: Ensure Apache2 is installed
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+
+    - name: Copy Apache virtual host configuration file
+      ansible.builtin.template:
+        src: vhost.conf.j2  # Path to your Jinja2 template file
+        dest: /etc/apache2/sites-available/{{ site_domain }}.conf
+      notify:
+        - Reload Apache
+
+    - name: Enable the new site
+      ansible.builtin.command: a2ensite {{ site_domain }}
+      notify:
+        - Reload Apache
+
+    - name: Create directory for site content
+      ansible.builtin.file:
+        path: "/var/www/{{ site_domain }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Create default page
+      ansible.builtin.copy:
+        content: '<h1>Welcome to {{ site_domain }}</h1>'
+        dest: /var/www/{{ site_domain }}/index.html
+
+  handlers:
+    - name: Reload Apache
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
