@@ -1,0 +1,14 @@
+---
+- name: Update and upgrade packages on Ubuntu
+  hosts: all
+  gather_facts: false
+  become: yes 
+  tasks:
+    - name: Update the repository cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
