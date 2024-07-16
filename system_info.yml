@@ -2,7 +2,6 @@
 - name: Gather facts and print system information
   hosts: all
   gather_facts: yes
-  become: yes
   tasks:
     - name: Print system information
       ansible.builtin.debug:
