@@ -22,10 +22,9 @@
           Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }}GB
           Used(%): {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansible_facts['mounts'][0]['size_total']  * 100) | round(1) }}%
 
-    - name: Print network settings
+    - name: Print IPv4 settings
       ansible.builtin.debug:
         msg: |
           IP Address: {{ ansible_facts['default_ipv4']['address'] }}
           MAC Address: {{ ansible_facts['default_ipv4']['macaddress'] }}
           Default Gateway: {{ ansible_facts['default_ipv4']['gateway'] }}
-          DNS Servers: {{ ansible_facts['dns']['nameservers'] }}
