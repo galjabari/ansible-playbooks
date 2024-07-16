@@ -13,15 +13,15 @@
           Architecture: {{ ansible_facts['architecture'] }}
           CPU: {{ ansible_facts['processor'][2] }}
           CPU Cores: {{ ansible_facts['processor_cores'] }}
-          Memory: {{ (ansible_facts['memtotal_mb'] / 1024) | round(2) }} GB
+          Memory: {{ (ansible_facts['memtotal_mb'] / 1024) | round(2) }}GB
 
     - name: Print disk usage
       ansible.builtin.debug:
         msg: |
-          Size: {{ (ansible_facts['mounts'][0]['size_total']  / (1024*1024*1024)) | round(1) }} GB
-          Used: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available'])  / (1024*1024*1024)) | round(1) }} GB
-          Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }} GB
-          Use%: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansible_facts['mounts'][0]['size_total']  * 100) | round(1) }} %
+          Size: {{ (ansible_facts['mounts'][0]['size_total']  / (1024*1024*1024)) | round(1) }}GB
+          Used: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available'])  / (1024*1024*1024)) | round(1) }}GB
+          Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }}GB
+          Used(%): {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansible_facts['mounts'][0]['size_total']  * 100) | round(1) }}%
 
     - name: Print network settings
       ansible.builtin.debug:
