@@ -19,8 +19,10 @@
       ansible.builtin.debug:
         msg: |
           Size: {{ (ansible_facts['mounts'][0]['size_total']  / (1024*1024*1024)) | round(1) }} GB
-          Used: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available'])  / (102>          Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }} GB
-          Use%: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansib>
+          Used: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available'])  / (1024*1024*1024)) | round(1) }} GB
+          Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }} GB
+          Use%: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansible_facts['mounts'][0]['size_total']  * 100) | round(1) }} %
+
     - name: Print network address
       ansible.builtin.debug:
         msg: |
