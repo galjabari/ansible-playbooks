@@ -28,5 +28,5 @@
         msg: |
           IP Address: {{ ansible_facts['default_ipv4']['address'] }}
           MAC Address: {{ ansible_facts['default_ipv4']['macaddress'] }}
-          Gateway Address: {{ ansible_facts['default_ipv4']['gateway'] }}
+          Default Gateway: {{ ansible_facts['default_ipv4']['gateway'] }}
           DNS Servers: {{ ansible_facts['dns']['nameservers'] }}
