@@ -1,0 +1,28 @@
+---
+- name: Gather facts and print system information
+  hosts: all
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Print system information
+      ansible.builtin.debug:
+        msg: |
+          Hostname: {{ ansible_facts['hostname'] }}
+          OS: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}
+          Kernel: {{ ansible_facts['kernel'] }}
+          Architecture: {{ ansible_facts['architecture'] }}
+          CPU: {{ ansible_facts['processor'][2] }}
+          CPU Cores: {{ ansible_facts['processor_cores'] }}
+          Memory: {{ (ansible_facts['memtotal_mb'] / 1024) | round(2) }} GB
+
+    - name: Print disk usage
+      ansible.builtin.debug:
+        msg: |
+          Size: {{ (ansible_facts['mounts'][0]['size_total']  / (1024*1024*1024)) | round(1) }} GB
+          Used: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available'])  / (102>          Free: {{ (ansible_facts['mounts'][0]['size_available']  / (1024*1024*1024)) | round(1) }} GB
+          Use%: {{ ((ansible_facts['mounts'][0]['size_total'] - ansible_facts['mounts'][0]['size_available']) / ansib>
+    - name: Print network address
+      ansible.builtin.debug:
+        msg: |
+          IP Address: {{ ansible_facts['default_ipv4']['address'] }}
+          MAC Address: {{ ansible_facts['default_ipv4']['macaddress'] }}
