@@ -1,0 +1,28 @@
+---
+- name: Deploy nginx using Docker
+  hosts: dockerhost
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+
+    - name: Pull nginx image
+      community.docker.docker_image:
+        name: nginx:latest
+        source: pull
+
+    - name: Run nginx container
+      community.docker.docker_container:
+        name: webserver
+        image: nginx
+        state: started
+        ports:
+          - "80:80"
+        restart_policy: unless-stopped
+
+    - name: Wait for a port to become available
+      ansible.builtin.wait_for:
+        port: 80
+        delay: 10
