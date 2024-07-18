@@ -1,5 +1,5 @@
 ---
-- name: Deploy Semaphore UI using Docker Compose
+- name: Deploy Portainer using Docker Compose
   hosts: docker_host
   gather_facts: false
   tasks:
@@ -15,15 +15,15 @@
 
     - name: Run docker compose down
       community.docker.docker_compose_v2:
-        project_src: ~/src/semaphore
+        project_src: ~/src/portainer 
         state: absent
 
     - name: Run docker compose up
       community.docker.docker_compose_v2:
-        project_src: ~/src/semaphore
+        project_src: ~/src/portainer 
         state: present
 
-    - name: Wait for port 3000 to become available
+    - name: Wait for port 9443 to become available
       ansible.builtin.wait_for:
-        port: 3000
+        port: 9443
         delay: 10
