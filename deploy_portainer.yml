@@ -9,7 +9,7 @@
         name: docker
         state: started
 
-    - name: Clone GitHub repository
+    - name: Clone my repository
       ansible.builtin.git:
         repo: https://github.com/galjabari/cloud-computing.git
         dest: ~/src
