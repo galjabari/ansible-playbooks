@@ -11,16 +11,16 @@
     - name: Clone GitHub repository
       ansible.builtin.git:
         repo: https://github.com/galjabari/cloud-computing.git
-        dest: ~/
+        dest: ~/src
 
     - name: Run docker compose down
       community.docker.docker_compose_v2:
-        project_src: ~/semaphore
+        project_src: ~/src/semaphore
         state: absent
 
     - name: Run docker compose up
       community.docker.docker_compose_v2:
-        project_src: ~/semaphore
+        project_src: ~/src/semaphore
         state: present
 
     - name: Wait for port 3000 to become available
