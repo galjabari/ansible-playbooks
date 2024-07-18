@@ -11,10 +11,8 @@
     - name: Install required packages
       ansible.builtin.apt:
         name:
-          - apt-transport-https
           - ca-certificates
           - curl
-          - software-properties-common
         state: present
 
     - name: Add Docker's official GPG key
