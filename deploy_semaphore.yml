@@ -1,6 +1,6 @@
 ---
 - name: Deploy Semaphore UI using Docker Compose
-  hosts: dockerhost
+  hosts: docker_host
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed

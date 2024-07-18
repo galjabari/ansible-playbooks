@@ -1,6 +1,6 @@
 ---
 - name: Deploy nginx using Docker
-  hosts: dockerhost
+  hosts: docker_host
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed

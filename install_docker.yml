@@ -1,6 +1,6 @@
 ---
 - name: Install Docker on Ubuntu
-  hosts: dockerhost
+  hosts: docker_host
   gather_facts: true
   become: yes
   tasks:
