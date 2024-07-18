@@ -2,6 +2,7 @@
 - name: Deploy Portainer using Docker Compose
   hosts: docker_host
   gather_facts: false
+  become: yes
   tasks:
     - name: Ensure Docker is installed
       ansible.builtin.service:
