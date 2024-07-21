@@ -1,0 +1,48 @@
+---
+- name: Deploy mariadb using Docker
+  hosts: docker_host
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+
+    - name: Pull mariadb image
+      community.docker.docker_image:
+        name: mariadb:latest
+        source: pull
+
+    - name: Pull phpmyadmin image
+      community.docker.docker_image:
+        name: phpmyadmin:latest
+        source: pull
+
+    - name: Run mariadb container
+      community.docker.docker_container:
+        name: db
+        image: mariadb:latest
+        state: started
+        restart_policy: always
+        env:
+          MARIADB_ROOT_PASSWORD: secret
+        networks:
+          - name: db_network
+
+    - name: Run phpmyadmin container
+      community.docker.docker_container:
+        name: phpmyadmin
+        image: phpmyadmin:latest
+        state: started
+        ports:
+          - 8080:80        
+        restart_policy: always
+        env:
+          PMA_HOST: db
+        networks:
+          - name: db_network
+
+    - name: Wait for port 8080 to become available
+      ansible.builtin.wait_for:
+        port: 8080
+        delay: 10
