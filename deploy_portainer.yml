@@ -1,5 +1,5 @@
 ---
-- name: Deploy Portainer using Docker 
+- name: Deploy Portainer using Docker
   hosts: docker_host
   gather_facts: false
   become: yes
@@ -17,7 +17,7 @@
     - name: Run Portainer container
       community.docker.docker_container:
         name: portainer
-        image: portainer-ce
+        image: portainer/portainer-ce:latest
         state: started
         ports:
             - 8000:8000
