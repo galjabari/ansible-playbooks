@@ -1,5 +1,5 @@
 ---
-- name: Deploy mariadb using Docker
+- name: Deploy MariaDB using Docker
   hosts: docker_host
   gather_facts: false
   tasks:
@@ -8,17 +8,21 @@
         name: docker
         state: started
 
-    - name: Pull mariadb image
+    - name: Pull MariaDB image
       community.docker.docker_image:
         name: mariadb:latest
         source: pull
 
-    - name: Pull phpmyadmin image
+    - name: Pull phpMyAdmin image
       community.docker.docker_image:
         name: phpmyadmin:latest
         source: pull
 
-    - name: Run mariadb container
+    - name: Create virtual network
+      docker_network:
+        name: db_network
+
+    - name: Run MariaDB container
       community.docker.docker_container:
         name: db
         image: mariadb:latest
@@ -29,7 +33,7 @@
         networks:
           - name: db_network
 
-    - name: Run phpmyadmin container
+    - name: Run phpMyAdmin container
       community.docker.docker_container:
         name: phpmyadmin
         image: phpmyadmin:latest
