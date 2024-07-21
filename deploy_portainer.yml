@@ -1,5 +1,5 @@
 ---
-- name: Deploy Portainer using Docker Compose
+- name: Deploy Portainer using Docker 
   hosts: docker_host
   gather_facts: false
   become: yes
@@ -9,20 +9,23 @@
         name: docker
         state: started
 
-    - name: Clone my GitHub repository
-      ansible.builtin.git:
-        repo: https://github.com/galjabari/cloud-computing.git
-        dest: ~/src
+    - name: Pull Portainer image
+      community.docker.docker_image:
+        name: portainer/portainer-ce:latest
+        source: pull
 
-    - name: Run docker compose down
-      community.docker.docker_compose_v2:
-        project_src: ~/src/portainer 
-        state: absent
-
-    - name: Run docker compose up
-      community.docker.docker_compose_v2:
-        project_src: ~/src/portainer 
-        state: present
+    - name: Run Portainer container
+      community.docker.docker_container:
+        name: portainer
+        image: portainer-ce
+        state: started
+        ports:
+            - 8000:8000
+            - 9443:9443
+        restart_policy: always
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer_data:/data
 
     - name: Wait for port 9443 to become available
       ansible.builtin.wait_for:
