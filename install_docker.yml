@@ -11,6 +11,7 @@
     - name: Install required packages
       ansible.builtin.apt:
         name:
+          - software-properties-common
           - ca-certificates
           - curl
         state: present
