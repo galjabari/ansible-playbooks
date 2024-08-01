@@ -15,6 +15,11 @@ resource "proxmox_lxc" "ubuntu-ct" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "dhcp"
+    #ip     = "dhcp"
+    ip     = "192.168.1.11/24"
+    gw     = "192.168.1.1"
+  }
+  features {
+    nesting = true
   }
 }

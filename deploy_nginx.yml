@@ -7,6 +7,13 @@
       ansible.builtin.service:
         name: docker
         state: started
+      become: true
+
+    - name: Ensure python3-docker is installed
+      apt:
+        name: python3-docker
+        state: present
+      become: true
 
     - name: Pull nginx image
       community.docker.docker_image:
