@@ -9,11 +9,6 @@
         state: started
       become: true
 
-    - name: Pull latest version of nginx image
-      community.docker.docker_image:
-        name: nginx:latest
-        source: pull
-
     - name: Stop current nginx container
       community.docker.docker_container:
         name: nginx
@@ -28,6 +23,11 @@
       community.docker.docker_image:
         name: nginx
         state: absent
+
+    - name: Pull latest version of nginx image
+      community.docker.docker_image:
+        name: nginx:latest
+        source: pull
 
     - name: Run new nginx container
       community.docker.docker_container:
