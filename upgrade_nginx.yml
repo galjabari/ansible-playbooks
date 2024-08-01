@@ -41,4 +41,4 @@
     - name: Wait for port 80 to become available
       ansible.builtin.wait_for:
         port: 80
-        delay: 10        
+        delay: 10

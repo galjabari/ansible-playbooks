@@ -56,4 +56,4 @@
     - name: Print Docker version
       ansible.builtin.debug:
         var: docker_version.stdout
-        
+
