@@ -1,5 +1,5 @@
 ---
-- name: Destroy nginx Docker container
+- name: Upgrade nginx Docker container
   hosts: docker_host
   gather_facts: false
   tasks:
@@ -9,28 +9,36 @@
         state: started
       become: true
 
-    - name: Stop nginx container
-      community.docker.docker_container:
-        name: nginx
-        state: stopped
-
-    - name: Remove nginx container
-      community.docker.docker_container:
-        name: nginx
-        state: absent
-
-    - name: Remove nginx image
-      community.docker.docker_image:
-        name: nginx
-        state: absent
-
-    - name: Pull a new nginx image
+    - name: Pull latest version of nginx image
       community.docker.docker_image:
         name: nginx:latest
         source: pull
 
-    - name: Run nginx container
+    - name: Stop current nginx container
+      community.docker.docker_container:
+        name: nginx
+        state: stopped
+
+    - name: Remove current nginx container
+      community.docker.docker_container:
+        name: nginx
+        state: absent
+
+    - name: Remove existing nginx image
+      community.docker.docker_image:
+        name: nginx
+        state: absent
+
+    - name: Run new nginx container
       community.docker.docker_container:
         name: nginx
         image: nginx
         state: started
+        ports:
+          - "80:80"
+        restart_policy: unless-stopped
+
+    - name: Wait for port 80 to become available
+      ansible.builtin.wait_for:
+        port: 80
+        delay: 10        

@@ -22,7 +22,7 @@
 
     - name: Run nginx container
       community.docker.docker_container:
-        name: webserver
+        name: nginx
         image: nginx
         state: started
         ports:
