@@ -9,12 +9,12 @@
         state: started
       become: true
 
-    - name: Stop current nginx container
+    - name: Stop existing nginx container
       community.docker.docker_container:
         name: nginx
         state: stopped
 
-    - name: Remove current nginx container
+    - name: Remove existing nginx container
       community.docker.docker_container:
         name: nginx
         state: absent
