@@ -9,6 +9,7 @@ resource "proxmox_vm_qemu" "ubuntu-vm" {
   boot        = "order=scsi0"
   sshkeys     = file("~/.ssh/id_rsa.pub")
   ipconfig0   = "ip=dhcp"
+  #ipconfig0   = "ip=192.168.1.11/24,gw=192.168.1.1"
   disks {
     scsi {
       scsi0 {
