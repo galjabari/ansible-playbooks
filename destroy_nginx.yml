@@ -1,0 +1,20 @@
+---
+- name: Destroy nginx Docker container
+  hosts: docker_host
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Stop nginx container
+      community.docker.docker_container:
+        name: nginx
+        state: stopped
+
+    - name: Remove nginx container
+      community.docker.docker_container:
+        name: nginx
+        state: absent
