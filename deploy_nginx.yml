@@ -13,6 +13,7 @@
       apt:
         name: python3-docker
         state: present
+        update_cache: yes
       become: true
 
     - name: Pull nginx image
