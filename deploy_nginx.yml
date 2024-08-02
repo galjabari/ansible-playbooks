@@ -9,7 +9,7 @@
         state: started
       become: true
 
-    - name: Ensure python3-docker is installed
+    - name: Ensure Docker SDK for Python is installed
       apt:
         name: python3-docker
         state: present
