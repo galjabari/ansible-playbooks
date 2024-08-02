@@ -9,6 +9,12 @@
         name: docker
         state: started
 
+    - name: Ensure python3-docker is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+
     - name: Pull Portainer image
       community.docker.docker_image:
         name: portainer/portainer-ce:latest

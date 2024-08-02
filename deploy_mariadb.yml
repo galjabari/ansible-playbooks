@@ -8,6 +8,13 @@
         name: docker
         state: started
 
+    - name: Ensure python3-docker is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+      become: yes
+
     - name: Pull MariaDB image
       community.docker.docker_image:
         name: mariadb:latest
