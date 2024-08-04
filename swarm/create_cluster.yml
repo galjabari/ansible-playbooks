@@ -1,0 +1,59 @@
+---
+- name: Create Docker Swarm cluster
+  hosts: manager
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker SDK for Python is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+      become: true
+
+    - name: Initialize a new swarm
+      community.docker.docker_swarm:
+        state: present
+        advertise_addr: "{{ ansible_host }}"
+      register: swarm_info
+
+- name: Join worker nodes to Docker Swarm
+  hosts: worker1,worker2
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker SDK for Python is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+      become: true
+
+    - name: Add nodes to the swarm
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: "{{ ansible_host }}"
+        join_token: "{{ hostvars['manager'].swarm_info.swarm_facts.JoinTokens.Worker }}"
+        remote_addrs:
+          - "{{ hostvars['manager'].ansible_host }}:2377"
+
+- name: Verify Docker Swarm cluster
+  hosts: manager
+  gather_facts: no
+  tasks:
+    - name: Get registered nodes
+      community.docker.docker_swarm_info:
+        nodes: true
+      register: swarm_status
+
+    - name: Print registered nodes
+      ansible.builtin.debug:
+        var: swarm_status.nodes
