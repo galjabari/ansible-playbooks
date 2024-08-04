@@ -1,5 +1,5 @@
 ---
-- name: Install Docker on Ubuntu
+- name: Install Docker on all swarm nodes
   hosts: swarm_nodes
   gather_facts: true
   become: yes
