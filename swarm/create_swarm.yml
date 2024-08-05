@@ -1,6 +1,6 @@
 ---
 - name: Create Docker Swarm cluster
-  hosts: manager
+  hosts: manager1
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed
@@ -46,7 +46,7 @@
           - "{{ hostvars['manager'].ansible_host }}:2377"
 
 - name: Verify Docker Swarm cluster
-  hosts: manager
+  hosts: manager1
   gather_facts: no
   tasks:
     - name: Get registered nodes
