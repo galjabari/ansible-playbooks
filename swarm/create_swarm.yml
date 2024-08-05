@@ -130,4 +130,3 @@
 
     - name: Reboot the system
       ansible.builtin.reboot:
-        msg: "Rebooting to apply IP forwarding settings"
