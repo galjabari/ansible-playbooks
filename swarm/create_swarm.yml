@@ -41,9 +41,9 @@
       community.docker.docker_swarm:
         state: join
         advertise_addr: "{{ ansible_host }}"
-        join_token: "{{ hostvars['manager'].swarm_info.swarm_facts.JoinTokens.Worker }}"
+        join_token: "{{ hostvars['manager1'].swarm_info.swarm_facts.JoinTokens.Worker }}"
         remote_addrs:
-          - "{{ hostvars['manager'].ansible_host }}:2377"
+          - "{{ hostvars['manager1'].ansible_host }}:2377"
 
 - name: Verify Docker Swarm cluster
   hosts: manager1
