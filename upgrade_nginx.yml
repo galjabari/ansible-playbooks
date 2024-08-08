@@ -35,6 +35,7 @@
       community.docker.docker_image:
         name: nginx
         state: absent
+        tag: latest
 
     - name: Run new nginx container
       community.docker.docker_container:
