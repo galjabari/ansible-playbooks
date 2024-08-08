@@ -18,3 +18,9 @@
       community.docker.docker_container:
         name: nginx
         state: absent
+
+    - name: Remove nginx image
+      community.docker.docker_image:
+        name: nginx
+        state: absent
+        tag: latest
