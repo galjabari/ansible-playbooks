@@ -1,0 +1,46 @@
+---
+- name: Deploy transmission Docker container
+  hosts: transmission_lxc
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker SDK for Python is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Pull transmission image
+      community.docker.docker_image:
+        name: lscr.io/linuxserver/transmission:latest
+        source: pull
+
+    - name: Run transmission container
+      community.docker.docker_container:
+        name: transmission
+        image: lscr.io/linuxserver/transmission:latest
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "80:9091"
+          - "51413:51413"
+          - "51413:51413/udp"
+        volumes:
+          - /mnt/harddisk/docker/transmission:/config
+          - /mnt/harddisk/downloads:/downloads
+          - /mnt/harddisk/downloads/torrent:/watch
+        env:
+          PUID: "0"
+          PGID: "0"
+          TZ: "TZ=Asia/Hebron"
+
+    - name: Wait for port 80 to become available
+      ansible.builtin.wait_for:
+        port: 80
+        delay: 10

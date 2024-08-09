@@ -1,0 +1,26 @@
+---
+- name: Destroy emby Docker container
+  hosts: docker_host
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Stop emby container
+      community.docker.docker_container:
+        name: emby
+        state: stopped
+
+    - name: Remove emby container
+      community.docker.docker_container:
+        name: emby
+        state: absent
+
+    - name: Remove emby image
+      community.docker.docker_image:
+        name: emby/embyserver
+        state: absent
+        tag: latest

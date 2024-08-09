@@ -1,0 +1,57 @@
+---
+- name: Upgrade filebrowser container
+  hosts: filebrowser_lxc
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker SDK for Python is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Pull latest version of filebrowser image
+      community.docker.docker_image:
+        name: filebrowser/filebrowser:latest
+        source: pull
+
+    - name: Stop existing filebrowser container
+      community.docker.docker_container:
+        name: filebrowser
+        state: stopped
+
+    - name: Remove existing filebrowser container
+      community.docker.docker_container:
+        name: filebrowser
+        state: absent
+
+    - name: Remove existing filebrowser image
+      community.docker.docker_image:
+        name: filebrowser
+        state: absent
+        tag: latest
+
+    - name: Run new filebrowser container
+      community.docker.docker_container:
+        name: filebrowser
+        image: filebrowser/filebrowser:latest
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "80:80"
+        volumes:
+          - /mnt/harddisk:/srv
+        env:
+          PUID: "0"
+          PGID: "0"
+
+    - name: Wait for port 80 to become available
+      ansible.builtin.wait_for:
+        port: 80
+        delay: 10

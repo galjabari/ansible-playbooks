@@ -1,0 +1,59 @@
+---
+- name: Upgrade emby container
+  hosts: emby_lxc
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker SDK for Python is installed
+      ansible.builtin.apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Pull latest version of emby image
+      community.docker.docker_image:
+        name: emby/embyserver:latest
+        source: pull
+
+    - name: Stop existing emby container
+      community.docker.docker_container:
+        name: emby
+        state: stopped
+
+    - name: Remove existing emby container
+      community.docker.docker_container:
+        name: emby
+        state: absent
+
+    - name: Remove existing emby image
+      community.docker.docker_image:
+        name: emby/embyserver
+        state: absent
+        tag: latest
+
+    - name: Run new emby container
+      community.docker.docker_container:
+        name: emby
+        image: emby/embyserver:latest
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "80:8096"
+        volumes:
+          - /mnt/harddisk/docker/emby:/config
+          - /mnt/harddisk/movies:/movies
+          - /mnt/harddisk/tvshows:/tvshows
+        env:
+          PUID: "0"
+          PGID: "0"
+
+    - name: Wait for port 80 to become available
+      ansible.builtin.wait_for:
+        port: 80
+        delay: 10

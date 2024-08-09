@@ -1,0 +1,26 @@
+---
+- name: Destroy transmission Docker container
+  hosts: transmission_lxc
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Stop transmission container
+      community.docker.docker_container:
+        name: transmission
+        state: stopped
+
+    - name: Remove transmission container
+      community.docker.docker_container:
+        name: transmission
+        state: absent
+
+    - name: Remove transmission image
+      community.docker.docker_image:
+        name: lscr.io/linuxserver/transmission
+        state: absent
+        tag: latest
