@@ -6,7 +6,7 @@ resource "proxmox_lxc" "ubuntu-ct" {
   unprivileged    = true
   cores           = 2
   memory          = 1024
-  start           = false
+  start           = true # start after creation
   ssh_public_keys = file("~/.ssh/id_rsa.pub")
   rootfs {
     storage = "local-lvm"

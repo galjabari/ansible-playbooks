@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "ubuntu-vm" {
   name        = "ubuntu-vm"
   target_node = "pve"
   clone       = "ubuntu-22.04-template"
-  agent       = 1
+  agent       = 1 # enable QEMU guest agent
   cores       = 2
   memory      = 2048
   scsihw      = "virtio-scsi-pci"
