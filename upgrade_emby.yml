@@ -46,9 +46,9 @@
         published_ports:
           - "80:8096"
         volumes:
-          - /mnt/harddisk/docker/emby:/config
-          - /mnt/harddisk/movies:/movies
-          - /mnt/harddisk/tvshows:/tvshows
+          - /mnt/data/docker/emby:/config
+          - /mnt/data/movies:/movies
+          - /mnt/data/tvshows:/tvshows
         env:
           PUID: "0"
           PGID: "0"

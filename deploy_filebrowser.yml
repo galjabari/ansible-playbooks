@@ -30,7 +30,7 @@
         published_ports:
           - "80:80"
         volumes:
-          - /mnt/harddisk:/srv
+          - /mnt/data:/srv
         env:
           PUID: "0"
           PGID: "0"

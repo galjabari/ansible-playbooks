@@ -48,9 +48,9 @@
           - "51413:51413"
           - "51413:51413/udp"
         volumes:
-          - /mnt/harddisk/docker/transmission:/config
-          - /mnt/harddisk/downloads:/downloads
-          - /mnt/harddisk/downloads/torrent:/watch
+          - /mnt/data/docker/transmission:/config
+          - /mnt/data/downloads:/downloads
+          - /mnt/data/downloads/torrent:/watch
         env:
           PUID: "0"
           PGID: "0"

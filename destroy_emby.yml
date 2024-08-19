@@ -1,6 +1,6 @@
 ---
 - name: Destroy emby Docker container
-  hosts: docker_host
+  hosts: emby_host
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed
