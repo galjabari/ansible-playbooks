@@ -1,6 +1,6 @@
 ---
 - name: Upgrade filebrowser container
-  hosts: filebrowser_lxc
+  hosts: filebrowser
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed
