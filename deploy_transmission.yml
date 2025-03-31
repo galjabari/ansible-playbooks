@@ -1,6 +1,6 @@
 ---
 - name: Deploy transmission Docker container
-  hosts: transmission_lxc
+  hosts: transmission
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed

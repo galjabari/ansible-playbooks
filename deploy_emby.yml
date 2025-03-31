@@ -1,6 +1,6 @@
 ---
 - name: Deploy emby container
-  hosts: emby_lxc
+  hosts: emby
   gather_facts: false
   tasks:
     - name: Ensure Docker is installed
