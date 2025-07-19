@@ -10,6 +10,7 @@
     - name: Show OSPF routes
       arista.eos.eos_command:
         commands: 
+          - show ip ospf neighbor
           - show ip route ospf
       register: ospf_output
 

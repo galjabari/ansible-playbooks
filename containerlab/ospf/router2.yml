@@ -45,6 +45,6 @@
               networks:
                 - prefix: "10.10.10.2/32"
                   area: "0.0.0.0"
-                - prefix: "192.168.10.0/24"
+                - prefix: "192.168.1.0/30"
                   area: "0.0.0.0"
         state: merged
