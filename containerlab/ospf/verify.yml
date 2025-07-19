@@ -1,0 +1,18 @@
+---
+- name: Show OSPF routing table on Arista cEOS routers
+  hosts: arista_ceos
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: arista.eos.eos
+    ansible_host_key_checking: false
+  gather_facts: false
+  tasks:
+    - name: Show OSPF routes
+      arista.eos.eos_command:
+        commands: 
+          - show ip route ospf
+      register: ospf_output
+
+    - name: Display OSPF routes
+      ansible.builtin.debug:
+        var: ospf_output.stdout_lines
