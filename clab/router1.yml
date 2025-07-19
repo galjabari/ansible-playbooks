@@ -1,0 +1,48 @@
+---
+- name: Configure Arista cEOS Router 1
+  hosts: clab-demo-router1
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: arista.eos.eos
+    ansible_host_key_checking: false
+    ansible_become: yes
+  gather_facts: false
+  tasks:
+    - name: Configure Ethernet interfaces
+      arista.eos.eos_l3_interfaces:
+        config:
+          - name: Ethernet1
+            ipv4:
+              - address: 192.168.1.1/30
+          - name: Ethernet2
+            ipv4:
+              - address: 192.168.10.1/24
+          - name: Loopback0
+            ipv4:
+              - address: 10.10.10.1/32              
+        state: merged
+    - name: Enable Ethernet interfaces
+      arista.eos.eos_interfaces:
+        config:
+          - name: Ethernet1
+            enabled: true
+            mode: layer3
+          - name: Ethernet2
+            enabled: true
+            mode: layer3            
+        state: merged
+    - name: Enable IP routing
+      arista.eos.eos_config:
+        lines:
+          - ip routing        
+    - name: Configure BGP settings
+      arista.eos.eos_bgp_global:
+        config:
+          as_number: "65001"
+          router_id: "10.10.10.1"
+          network:
+            - address: 192.168.10.0/24
+          neighbor:
+            - neighbor_address: "192.168.1.2"
+              remote_as: "65001"
+        state: merged
