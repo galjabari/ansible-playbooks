@@ -1,0 +1,24 @@
+name: ospf
+
+topology:
+  nodes:
+    # Router 1 (Arista cEOS)
+    router1:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+
+    # Router 2 (Arista cEOS)
+    router2:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+
+    # Router 3 (Arista cEOS)
+    router3:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+
+  links:
+    # Link between router1 and router2
+    - endpoints: ["router1:eth1", "router2:eth1"]
+    # Link between router1 and router3
+    - endpoints: ["router1:eth2", "router3:eth1"]
