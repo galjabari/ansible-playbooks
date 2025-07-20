@@ -2,23 +2,23 @@ name: ospf
 
 topology:
   nodes:
-    # Router 1 (Arista cEOS)
-    router1:
+    # Spine (Arista cEOS)
+    spine:
       kind: arista_ceos
       image: takfa19/ceos:4.32.2F
 
-    # Router 2 (Arista cEOS)
-    router2:
+    # Leaf 1 (Arista cEOS)
+    leaf1:
       kind: arista_ceos
       image: takfa19/ceos:4.32.2F
 
-    # Router 3 (Arista cEOS)
-    router3:
+    # Leaf 2 (Arista cEOS)
+    leaf2:
       kind: arista_ceos
       image: takfa19/ceos:4.32.2F
 
   links:
-    # Link between router1 and router2
-    - endpoints: ["router1:eth1", "router2:eth1"]
-    # Link between router1 and router3
-    - endpoints: ["router1:eth2", "router3:eth1"]
+    # Link between spine and leaf 1
+    - endpoints: ["spine:eth1", "leaf1:eth1"]
+    # Link between spine and leaf 2
+    - endpoints: ["spine:eth2", "leaf2:eth1"]

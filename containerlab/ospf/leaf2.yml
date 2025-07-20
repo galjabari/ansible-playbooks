@@ -1,6 +1,6 @@
 ---
-- name: Configure Arista cEOS Router 2
-  hosts: clab-ospf-router2
+- name: Configure Arista cEOS Leaf 2
+  hosts: clab-ospf-leaf2
   vars:
     ansible_connection: network_cli
     ansible_network_os: arista.eos.eos
@@ -13,13 +13,13 @@
         config:
           - name: Ethernet1
             ipv4:
-              - address: 192.168.1.2/30
+              - address: 192.168.1.6/30
           - name: Ethernet2
             ipv4:
-              - address: 192.168.10.0/24
+              - address: 192.168.20.0/24
           - name: Loopback0
             ipv4:
-              - address: 10.10.10.2/32              
+              - address: 10.10.10.3/32              
         state: merged
     - name: Enable Ethernet interfaces
       arista.eos.eos_interfaces:
@@ -41,10 +41,10 @@
         config:
           processes:
             - process_id: 1
-              router_id: "10.10.10.2"
+              router_id: "10.10.10.3"
               networks:
-                - prefix: "10.10.10.2/32"
+                - prefix: "10.10.10.3/32"
                   area: "0.0.0.0"
-                - prefix: "192.168.1.0/30"
+                - prefix: "192.168.1.4/30"
                   area: "0.0.0.0"
         state: merged
