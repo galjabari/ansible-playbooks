@@ -10,6 +10,7 @@
     - name: Show BGP routes
       arista.eos.eos_command:
         commands:
+          - show ip bgp summary
           - show ip bgp
       register: bgp_output
 
