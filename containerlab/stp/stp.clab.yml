@@ -2,15 +2,15 @@ name: stp
 topology:
   nodes:
     s1:
-      kind: ceos
+      kind: arista_ceos
       image: takfa19/ceos:4.32.2F
       startup-config: switch.cfg
     s2:
-      kind: ceos
+      kind: arista_ceos
       image: takfa19/ceos:4.32.2F
       startup-config: switch.cfg
     s3:
-      kind: ceos
+      kind: arista_ceos
       image: takfa19/ceos:4.32.2F
       startup-config: switch.cfg
   links:
