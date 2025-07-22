@@ -1,0 +1,19 @@
+name: stp
+topology:
+  nodes:
+    s1:
+      kind: ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg
+    s2:
+      kind: ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg
+    s3:
+      kind: ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg
+  links:
+    - endpoints: ["s1:eth1", "s2:eth1"]
+    - endpoints: ["s2:eth2", "s3:eth1"]
+    - endpoints: ["s3:eth2", "s1:eth2"]
