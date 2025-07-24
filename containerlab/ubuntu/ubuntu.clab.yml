@@ -1,0 +1,33 @@
+name: ubuntu
+
+topology:
+  nodes:
+    # router:
+    #   kind: arista_ceos
+    #   image: takfa19/ceos:4.32.2F
+    #   startup-config: router.cfg
+
+    switch:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg
+      
+    client:
+      kind: linux
+      image: clab-ubuntu:latest
+      exec:
+        # - dhclient eth1
+        - ip addr add 192.168.10.2/24 dev eth1
+        # - ip route replace default via 192.168.10.1
+    
+    server:
+      kind: linux
+      image: clab-ubuntu:latest
+      exec:
+        - ip addr add 192.168.10.3/24 dev eth1
+        # - ip route replace default via 192.168.10.1
+
+  links:
+    - endpoints: ["switch:eth1", "client:eth1"]
+    - endpoints: ["switch:eth2", "server:eth1"]    
+    # - endpoints: ["switch:eth3", "router:eth1"]
