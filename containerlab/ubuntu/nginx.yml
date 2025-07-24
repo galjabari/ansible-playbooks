@@ -1,0 +1,40 @@
+---
+- name: Install Nginx on Ubuntu
+  hosts: clab-ubuntu-server
+  vars:
+    ansible_user: clab
+    ansible_password: clab
+    ansible_become_password: clab
+    ansible_host_key_checking: false
+  gather_facts: false
+  become: yes 
+  tasks:
+    - name: Update repositories cache and install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Start and enable Nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
+- name: Verify Nginx on Ubuntu
+  hosts: clab-ubuntu-client
+  vars:
+    ansible_user: clab
+    ansible_password: clab
+    ansible_host_key_checking: false
+  gather_facts: false
+  tasks:
+    - name: Check if Nginx is available
+      ansible.builtin.uri:
+        url: http://clab-ubuntu-server
+      register: result
+
+    - name: Check if welcome page is returned
+      ansible.builtin.assert:
+        that:
+          - result.status == 200
