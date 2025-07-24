@@ -1,5 +1,5 @@
 ---
-- name: Install Nginx on Ubuntu
+- name: Install Nginx on Ubuntu server
   hosts: clab-ubuntu-server
   vars:
     ansible_user: clab
@@ -21,7 +21,7 @@
         state: started
         enabled: yes
 
-- name: Verify Nginx on Ubuntu
+- name: Verify Nginx on Ubuntu client
   hosts: clab-ubuntu-client
   vars:
     ansible_user: clab
