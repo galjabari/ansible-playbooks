@@ -31,7 +31,7 @@
   tasks:
     - name: Check if Nginx is available
       ansible.builtin.uri:
-        url: http://clab-ubuntu-server
+        url: http://192.168.10.3
       register: result
 
     - name: Check if welcome page is returned
