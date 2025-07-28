@@ -1,0 +1,33 @@
+name: layer3
+
+topology:
+  nodes:
+    # Layer 3 switch (Arista cEOS)
+    switch:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg 
+
+    # Client 1 (Linux container)
+    client1:
+      kind: linux
+      image: alpine:latest  # Lightweight Linux image
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+    # Client 2 (Linux container)
+    client2:
+      kind: linux
+      image: alpine:latest
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+  links:
+    # Link between switch and client 1
+    - endpoints: ["switch:eth1", "client1:eth1"]
+    # Link between switch and client 2
+    - endpoints: ["switch:eth2", "client2:eth1"]
