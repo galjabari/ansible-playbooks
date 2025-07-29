@@ -1,0 +1,72 @@
+name: layer3
+
+topology:
+  nodes:
+    # Layer 3 switch (Arista cEOS)
+    spine:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: spine.cfg 
+    
+    # Layer 2 switch (Arista cEOS)
+    leaf1:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: leaf.cfg 
+
+    # Layer 2 switch (Arista cEOS)
+    leaf2:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: leaf.cfg 
+
+    # Client 1 (Linux container)
+    client1:
+      kind: linux
+      image: alpine:latest  # Lightweight Linux image
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+    # Client 2 (Linux container)
+    client2:
+      kind: linux
+      image: alpine:latest
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+    # Client 3 (Linux container)
+    client3:
+      kind: linux
+      image: alpine:latest  # Lightweight Linux image
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+    # Client 4 (Linux container)
+    client4:
+      kind: linux
+      image: alpine:latest
+      # Use udhcpc for DHCP client functionality
+      exec:
+        - ip route del default
+        - udhcpc -i eth1
+
+  links:
+    # Link between spine and leaf1
+    - endpoints: ["spine:eth1", "leaf1:eth3"]
+    # Link between spine and leaf2
+    - endpoints: ["spine:eth2", "leaf2:eth3"]
+    # Link between leaf1 and client 1
+    - endpoints: ["leaf1:eth1", "client1:eth1"]
+    # Link between leaf1 and client 2
+    - endpoints: ["leaf1:eth2", "client2:eth1"]
+    # Link between leaf2 and client 3
+    - endpoints: ["leaf2:eth1", "client3:eth1"]
+    # Link between leaf2 and client 4
+    - endpoints: ["leaf2:eth2", "client4:eth1"]
+
