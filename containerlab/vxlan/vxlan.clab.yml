@@ -1,0 +1,40 @@
+name: vxlan
+topology:
+  nodes:
+    # Spine (Arista cEOS)
+    spine:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: spine.cfg
+
+    # Leaf 1 (Arista cEOS)
+    leaf1:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: leaf1.cfg
+
+    # Leaf 2 (Arista cEOS)
+    leaf2:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: leaf2.cfg
+
+    # Client 1 (Linux container)
+    client1:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 192.168.10.1/24 dev eth1
+
+    # Client 2 (Linux container)
+    client2:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 192.168.10.2/24 dev eth1
+
+  links:
+    - endpoints: ["spine:eth1", "leaf1:eth1"]
+    - endpoints: ["spine:eth2", "leaf2:eth1"]
+    - endpoints: ["leaf1:eth2", "client1:eth1"]
+    - endpoints: ["leaf2:eth2", "client2:eth1"]
