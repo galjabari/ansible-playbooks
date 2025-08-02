@@ -1,0 +1,17 @@
+name: radius
+
+topology:
+  nodes:
+    switch:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch.cfg
+      
+    server:
+      kind: linux
+      image: clab-radius:latest
+      exec:
+        - ip addr add 192.168.10.10/24 dev eth1
+
+  links:
+    - endpoints: ["switch:eth1", "server:eth1"]
