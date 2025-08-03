@@ -7,9 +7,9 @@ topology:
       image: takfa19/ceos:4.32.2F
       startup-config: switch.cfg
       
-    dns-server:
+    server:
       kind: linux
-      image: ubuntu/bind9:latest
+      image: internetsystemsconsortium/bind9:9.20
       binds:
         - ./bind/named.conf:/etc/bind/named.conf
         - ./bind/zones:/var/lib/bind    
@@ -19,20 +19,20 @@ topology:
       exec:
         - ip addr add 192.168.10.10/24 dev eth1
     
-    web-server:
+    web:
       kind: linux
-      image: ubuntu/nginx:latest
+      image: nginx:alpine
       exec:
         - ip addr add 192.168.10.11/24 dev eth1
 
     client:
       kind: linux
-      image: alpine:latest      
+      image: alpine:latest     
       exec:
         - ip addr add 192.168.10.100/24 dev eth1
         - sh -c 'echo "nameserver 192.168.10.10" > /etc/resolv.conf'
 
   links:
-    - endpoints: ["switch:eth1", "dns-server:eth1"]
-    - endpoints: ["switch:eth2", "web-server:eth1"]
+    - endpoints: ["switch:eth1", "server:eth1"]
+    - endpoints: ["switch:eth2", "web:eth1"]
     - endpoints: ["switch:eth3", "client:eth1"]
