@@ -10,6 +10,7 @@ topology:
     server:
       kind: linux
       image: freeradius/freeradius-server:latest-alpine
+      cmd: -X
       binds:
         - ./raddb/clients.conf:/etc/raddb/clients.conf
         - ./raddb/mods-config/files/authorize:/etc/raddb/mods-config/files/authorize
