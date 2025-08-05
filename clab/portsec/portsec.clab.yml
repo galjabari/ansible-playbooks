@@ -1,0 +1,37 @@
+name: portsec
+
+topology:
+  nodes:
+    switch1:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch1.cfg
+
+    switch2:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch2.cfg
+
+    client1:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 192.168.10.101/24 dev eth1      
+
+    client2:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 192.168.10.102/24 dev eth1
+    
+    attacker:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 192.168.10.103/24 dev eth1
+
+  links:
+    - endpoints: ["switch1:eth1", "switch2:eth1"]
+    - endpoints: ["switch1:eth2", "client1:eth1"]
+    - endpoints: ["switch2:eth2", "client2:eth1"]
+    - endpoints: ["switch1:eth3", "attacker:eth1"]
