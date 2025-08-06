@@ -1,0 +1,15 @@
+name: pvst
+topology:
+  nodes:
+    switch1:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch1.cfg
+    switch2:
+      kind: arista_ceos
+      image: takfa19/ceos:4.32.2F
+      startup-config: switch2.cfg
+
+  links:
+    - endpoints: ["switch1:eth1", "switch2:eth1"]
+    - endpoints: ["switch1:eth2", "switch2:eth2"]
